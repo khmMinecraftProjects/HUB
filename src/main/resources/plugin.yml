@@ -1,0 +1,28 @@
+name: ${project.name}
+author: khmDEV
+main: ${project.groupId}.${project.artifactId}.init
+version: ${project.version}
+commands:
+   tienda:
+      permission: tienda.command
+      permission-message: No tienes permisos <permission>
+   vestidor:
+      permission: tienda.command
+      permission-message: No tienes permisos <permission>
+permissions:
+         desaparecedor.usar:
+                 default: op
+         tienda.command:
+                 default: op
+         doblesalto.usar:
+                 default: op
+         villagerTienda.attack:
+                 default: op
+         dressshop.buyall:
+                 default: op
+         HubPlugin.dropItem:
+                 default: op
+         HUBPlugin.Chat:
+                 default: op
+softdepend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx]
+Depend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx]
