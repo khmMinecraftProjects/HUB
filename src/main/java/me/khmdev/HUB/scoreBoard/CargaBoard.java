@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.khmdev.APIAuxiliar.Players.APIPermisons;
-import me.khmdev.APIAuxiliar.ScoreBoard.Board;
 import me.khmdev.APIAuxiliar.ScoreBoard.Functor;
 import me.khmdev.APIAuxiliar.ScoreBoard.FunctorString;
 import me.khmdev.APIAuxiliar.ScoreBoard.IBoard;
@@ -25,7 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CargaBoard {
-	private static Board board;
+	private static BoardHub board;
 	private static List<String> ranks=new LinkedList<>();
 	public static void cargar(JavaPlugin plugin) {
 		ConfigFile conf = new ConfigFile(plugin.getDataFolder(), "Board");
@@ -37,7 +36,7 @@ public class CargaBoard {
 				break;
 			}
 		}
-		if(board==null){board=new Board("");return;}
+		if(board==null){board=new BoardHub("");return;}
 		plugin.getServer().getPluginManager()
 		.registerEvents(new ListenBoard(board),plugin);
 		runBoard.addBoard(board);
@@ -58,7 +57,7 @@ public class CargaBoard {
 			board.set(l);
 			((BoardRanks) board).setRanks(ranks);
 		}else{
-			board=new Board(k);
+			board=new BoardHub(k);
 			board.set(l);
 		}
 		
@@ -104,7 +103,7 @@ public class CargaBoard {
 		return board;
 	}
 
-	public static void setBoard(Board board) {
+	public static void setBoard(BoardHub board) {
 		CargaBoard.board = board;
 	}
 

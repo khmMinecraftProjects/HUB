@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import me.khmdev.APIAuxiliar.Players.APIPermisons;
-import me.khmdev.APIAuxiliar.ScoreBoard.Board;
 import me.khmdev.APIAuxiliar.ScoreBoard.ObjetiveData;
 import me.khmdev.APIAuxiliar.ScoreBoard.getStringConst;
 
@@ -17,7 +16,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-public class BoardRanks extends Board {
+public class BoardRanks extends BoardHub {
 
 	public BoardRanks(String name) {
 		super(name);

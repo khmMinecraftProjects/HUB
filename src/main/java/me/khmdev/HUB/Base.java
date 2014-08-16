@@ -94,6 +94,7 @@ public class Base implements Datos {
 	}
 
 	public Base(JavaPlugin init) {
+		plug = init;
 
 		/**
 		 * Own
@@ -103,7 +104,6 @@ public class Base implements Datos {
 		init.getServer().getPluginManager()
 		.registerEvents(new ListenerHub(),init);
 		
-		plug = init;
 		API.getInstance().getCentral().insertar(this);
 		
 		/**
