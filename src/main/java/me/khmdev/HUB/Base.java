@@ -54,7 +54,6 @@ public class Base implements Datos {
 		run.setId(idd);
 	}
 
-	private static ItemOpenInventory item;
 	private static CustomInventory inv;
 
 	public static Inventory getInventory() {
@@ -69,7 +68,8 @@ public class Base implements Datos {
 		CItems.addItem(ItemsCust.Cocacola);
 		CItems.addItem(ItemsCust.Cupido);
 		CItems.addItem(ItemsCust.Creeperniano);
-		
+		CItems.addItem(ItemsCust.milk);
+
 		ListenerHub.addNDItem(ItemsCust.maria.getItem());
 		ListenerHub.addNDItem(ItemsCust.esteroides.getItem());
 		ListenerHub.addNDItem(ItemsCust.Cocacola.getItem());
@@ -84,43 +84,39 @@ public class Base implements Datos {
 
 		CItems.addInventorys(inv);
 
-		item = new ItemOpenInventory(new ItemStack(Material.ACACIA_STAIRS),
-				inv.getInventory());
-
-		CItems.addItem(item);
 		
 		
 
 	}
 
-	public Base(JavaPlugin init) {
-		plug = init;
+	public Base(JavaPlugin pl) {
+		plug = pl;
 
 		/**
 		 * Own
 		 */
 		ListenerHub.addStandarItem(APIPlayer.getEnabler());
 
-		init.getServer().getPluginManager()
-		.registerEvents(new ListenerHub(),init);
+		pl.getServer().getPluginManager()
+		.registerEvents(new ListenerHub(),pl);
 		
 		API.getInstance().getCentral().insertar(this);
 		
 		/**
 		 * Tutorial
 		 */
-		init.getServer().getPluginManager()
-				.registerEvents(new Tutorial(), init);
+		pl.getServer().getPluginManager()
+				.registerEvents(new Tutorial(), pl);
 		CItems.addNewsSign(new newSignTutorial());
 		CItems.addSign(new signTutorial());
-		CargarTutorial.init(init);
+		CargarTutorial.init(pl);
 
 		/**
 		 * Tags
 		 */
 		if(hasPluging("PermissionsEx")){
-		init.getServer().getPluginManager()
-				.registerEvents(new ListenerTags(init), init);}
+		pl.getServer().getPluginManager()
+				.registerEvents(new ListenerTags(pl), pl);}
 		
 		/**
 		 * ScoreBoard
@@ -130,14 +126,14 @@ public class Base implements Datos {
 		/**
 		 * Boss Bar
 		 */
-		CargaMensajes.cargar(init);
+		CargaMensajes.cargar(pl);
 
 
 		/**
 		 * Aldeano Shop
 		 */
-		init.getServer().getPluginManager()
-				.registerEvents(new ListenAldeano(), init);
+		pl.getServer().getPluginManager()
+				.registerEvents(new ListenAldeano(), pl);
 		init();
 		ListenAldeano.addVillager("Tienda",
 				inv.getInventory());
@@ -145,7 +141,7 @@ public class Base implements Datos {
 		/**
 		 * Dress Shop
 		 */
-		CargarShop.cargar(init);
+		CargarShop.cargar(pl);
 		ListenAldeano.addVillager("Vestidor", CargarShop.getInventory());
 		API.getInstance().getCentral().insertar(new PlayerDresser());
 		
@@ -154,7 +150,7 @@ public class Base implements Datos {
 		/**
 		 * Command Item
 		 */
-		CargarComands.cargar(init);
+		CargarComands.cargar(pl);
 		ListenerHub.addStandarItem(CargarComands.getItemOpenInventory()
 				.getItem());
 		/**
@@ -173,7 +169,10 @@ public class Base implements Datos {
 			.registerEvents(new ListenerChat(), init);
 		}
 		*/
-		
+		if (init.hasPluging("Friends")) {
+			ListenerHub.addStandarItem(
+			me.khmdev.Friends.Base.getInstance().getItemManager().getItem());
+		}
 		
 		ListenerHub.enable();
 

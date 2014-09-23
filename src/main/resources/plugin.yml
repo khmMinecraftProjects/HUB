@@ -24,5 +24,7 @@ permissions:
                  default: op
          HUBPlugin.Chat:
                  default: op
-softdepend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx]
-Depend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx]
+         tutorial.createsign:
+                 default: op
+softdepend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx,Friends]
+Depend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx,Friends]

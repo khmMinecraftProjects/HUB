@@ -1,5 +1,7 @@
 package me.khmdev.HUB.Listeners;
 
+import me.khmdev.APIBase.Auxiliar.UsuariosOcupados;
+
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +14,10 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 public class ListenerChat implements Listener{
 	@EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
+		if(UsuariosOcupados.contain(event.getPlayer())){
+			return;
+		}
+
 		PermissionUser user=PermissionsEx.getUser(
 					event.getPlayer().getName());
 		PermissionGroup g=PermissionsEx.getPermissionManager()

@@ -3,7 +3,7 @@ package me.khmdev.HUB.Tutorial;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.khmdev.APIBase.Almacenes.ConfigFile;
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 import me.khmdev.APIBase.Auxiliar.Auxiliar;
 import me.khmdev.HUB.Listeners.ListenerHub;
 

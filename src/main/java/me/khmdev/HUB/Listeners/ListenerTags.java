@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import me.khmdev.APIAuxiliar.Players.NamesTags;
 import me.khmdev.APIAuxiliar.Players.PexInterface;
-import me.khmdev.APIBase.Almacenes.ConfigFile;
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.khmdev.APIBase.Almacenes.ConfigFile;
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;

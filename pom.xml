@@ -8,7 +8,6 @@
 	<packaging>jar</packaging>
 
 	<name>HUB</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,13 +30,15 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.7.9-R0.2</version>
+			<version>1.7.10-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>LATEST</version>
+			<version>1.7.10-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -46,6 +47,7 @@
 			<version>1</version>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>HUBExt</groupId>
 			<artifactId>HoloAPI</artifactId>
@@ -77,6 +79,19 @@
 			<version>1</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>me.khmdev</groupId>
+			<artifactId>APIGames</artifactId>
+			<version>1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>me.khmdev</groupId>
+			<artifactId>Friends</artifactId>
+			<version>1</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<!-- Build settings -->
@@ -105,7 +120,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
-					<outputDirectory>${BUKKIT}/plugins</outputDirectory>
+					<outputDirectory>${BUKKIT}/plugins/update</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>

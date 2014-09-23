@@ -36,7 +36,7 @@ public class init extends JavaPlugin{
 	}
 
 
-	private static boolean hasPluging(String s) {
+	public static boolean hasPluging(String s) {
 		try {
 			return Bukkit.getPluginManager().getPlugin(s).isEnabled();
 		} catch (Exception e) {

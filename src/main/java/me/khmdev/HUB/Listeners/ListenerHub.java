@@ -6,6 +6,7 @@ import java.util.List;
 import me.khmdev.APIAuxiliar.Effects.ParticleEffect;
 import me.khmdev.APIAuxiliar.Effects.SendParticles;
 import me.khmdev.APIAuxiliar.Players.ItemVisible;
+import me.khmdev.APIBase.Auxiliar.UsuariosOcupados;
 import me.khmdev.HUB.Base;
 import me.khmdev.HUB.scoreBoard.CargaBoard;
 
@@ -44,7 +45,7 @@ public class ListenerHub implements Listener {
 	}
 
 	public static void setUp(final Player p) {
-		
+		if(UsuariosOcupados.contain(p)){return;}
 		
 		Bukkit.getServer().getScheduler()
 		.runTaskLater(Base.getInstance(), new Runnable() {
@@ -154,7 +155,7 @@ public class ListenerHub implements Listener {
 		if (!event.getPlayer().isFlying()
 				&& event.getPlayer().getGameMode() != GameMode.CREATIVE
 				&& event.getPlayer().hasPermission("doblesalto.usar")) {
-			if (!CargaBoard.getPlayers().contains(event.getPlayer())) {
+			if(UsuariosOcupados.contain(event.getPlayer())){
 				event.setCancelled(true);
 				return;
 			}

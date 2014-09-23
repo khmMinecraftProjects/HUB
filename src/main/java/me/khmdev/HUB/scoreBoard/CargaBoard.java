@@ -14,7 +14,7 @@ import me.khmdev.APIAuxiliar.ScoreBoard.getPermision;
 import me.khmdev.APIAuxiliar.ScoreBoard.getStringCash;
 import me.khmdev.APIAuxiliar.ScoreBoard.getStringConst;
 import me.khmdev.APIAuxiliar.ScoreBoard.runBoard;
-import me.khmdev.APIBase.Almacenes.ConfigFile;
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 import me.khmdev.APIBase.Auxiliar.Auxiliar;
 
 

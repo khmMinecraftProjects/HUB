@@ -11,7 +11,7 @@ import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CItems;
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CustomInventory;
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.ItemOpenInventory;
 import me.khmdev.APIAuxiliar.Players.AuxPlayer;
-import me.khmdev.APIBase.Almacenes.ConfigFile;
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 
 public class CargarComands {
 	private static ItemOpenInventory itemOpenInventory;
