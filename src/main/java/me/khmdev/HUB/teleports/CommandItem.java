@@ -6,11 +6,16 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CustomItem;
+import me.khmdev.HUB.Base;
 
 public class CommandItem extends CustomItem {
 	private PluginCommand cmd;
@@ -45,7 +50,16 @@ public class CommandItem extends CustomItem {
 		paramsS=getParamsS(cm);
 		params = getParams(cm);
 	}
+	
+	private static void executeBungee(Player pl, String cmd) {
+		ByteArrayDataOutput out = ByteStreams.newDataOutput();
+		out.writeUTF("Connect");
 
+		out.writeUTF(cmd);
+		pl.sendPluginMessage(Base.getInstance(), "BungeeCord",
+				out.toByteArray());
+	}
+	
 	@Override
 	public void execute(InventoryClickEvent event) {
 		event.setCancelled(true);
@@ -55,6 +69,9 @@ public class CommandItem extends CustomItem {
 		if(user!=null){
 			if(user.equalsIgnoreCase("console")){
 				pl=Bukkit.getConsoleSender();
+			}else if(user.equalsIgnoreCase("bungee")){
+				executeBungee((Player) event.getWhoClicked(), name);
+				return;
 			}else{
 				pl=Bukkit.getServer().getPlayer(user);
 			}

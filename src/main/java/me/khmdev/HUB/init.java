@@ -1,7 +1,5 @@
 package me.khmdev.HUB;
 
-import me.khmdev.HUB.Listeners.ListenerHub;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,8 +44,7 @@ public class init extends JavaPlugin{
 	}
 	@Override
 	public void onDisable(){
-		ListenerHub.resetHearts();
-
+		base.onDisable();
 	}
 
 }

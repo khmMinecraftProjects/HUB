@@ -3,128 +3,103 @@ package me.khmdev.HUB.Tutorial;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.khmdev.APIBase.Auxiliar.runKill;
-import me.khmdev.APIEconomy.ConstantesEconomy;
-import me.khmdev.APIEconomy.Own.APIEconomy;
-import me.khmdev.HUB.Base;
+import me.khmdev.APIBase.Auxiliar.Auxiliar;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 
-public class Tutorial extends runKill implements Listener{
-	public static List<String>freeze=new LinkedList<>();
-	public static List<String>freezeHead=new LinkedList<>();
+public class Tutorial {
+	private List<Etapa> etapas = new LinkedList<>();
+	private int cash = 200;
+	private String id;
+	private List<String> tutorizados = new LinkedList<>();
 
-	
-	
-	private int p=0;
-	private Etapa actual=null;
-	private long time=0;
-	private Player player;
-	private Location first;
-	@EventHandler
-	public void move(PlayerMoveEvent event){
-		Location l=event.getTo().clone(),
-				from=event.getFrom().clone();
-
-		if(freeze.contains(event.getPlayer().getName()))
-		{
-			l.setX(from.getX());
-			l.setY(from.getY());
-			l.setZ(from.getZ());
-
+	public Tutorial(ConfigurationSection section) {
+		id = section.getName();
+		if (section.isInt("cash")) {
+			setCash(section.getInt("cash"));
 		}
-
-		if(freezeHead.contains(event.getPlayer().getName()))
-		{
-			l.setPitch(from.getPitch());
-			l.setYaw(from.getYaw());
-		}
-		if(event.getTo().distance(l)!=0
-				||(event.getTo().getPitch()!=l.getPitch()
-				||event.getTo().getYaw()!=l.getYaw()))
-		{
-			event.getPlayer().teleport(l);
-		}
-	}
-	public Tutorial(){
-		
-	}
-
-	public Tutorial(Player pl){
-		player=pl;
-		p=0;
-		time=System.currentTimeMillis();
-		actual=CargarTutorial.getEtapa(p);
-		if(actual!=null){
-			player.teleport(actual.getPos());
-			time=System.currentTimeMillis();
-			actual.sendMsg(player);
-
-			if(actual.isMove()){
-				freeze.remove(player.getName());
-			}else{
-				if(!freeze.contains(player.getName())){
-				freeze.add(player.getName());
-				}
-			}
-			
-			if(actual.isHead()){
-				freezeHead.remove(player.getName());
-			}else{
-				if(!freezeHead.contains(player.getName())){
-					freezeHead.add(player.getName());
-				}
+		for (String key : section.getKeys(false)) {
+			if (section.isConfigurationSection(key)) {
+				addEtapa(section.getConfigurationSection(key));
 			}
 		}
-		first=player.getLocation();
 	}
-	@Override
-	public void kill(){
-		freeze.remove(player.getName());
-		freezeHead.remove(player.getName());
-		Base.tuto(player.getPlayer().getName());
-		APIEconomy.addCash(player.getName(), CargarTutorial.getCash());
-		player.sendMessage("Has ganado "+CargarTutorial.getCash()
-				+ConstantesEconomy.UM+" por haber hecho el tutorial");
-		player.teleport(first);
-		super.kill();
+
+	public List<String> getTutorizados() {
+		return tutorizados;
 	}
-	@Override
-	public void run() {
-		if(actual==null){
-			kill();
-			return;
+
+	public double getCash() {
+		return cash;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public Etapa getEtapa(int id) {
+		return etapas.size() > id ? etapas.get(id) : null;
+	}
+
+	private void addEtapa(ConfigurationSection section) {
+		String pos = section.getString("Posicion");
+		World world = getWorld(Auxiliar.getSeparate(pos, 0, ';'));
+
+		double x = Auxiliar.getDouble(Auxiliar.getSeparate(pos, 1, ';'), 0), y = Auxiliar
+				.getDouble(Auxiliar.getSeparate(pos, 2, ';'), 0), z = Auxiliar
+				.getDouble(Auxiliar.getSeparate(pos, 3, ';'), 0);
+		float pitch = (float) Auxiliar.getDouble(
+				Auxiliar.getSeparate(pos, 4, ';'), 0), yaw = (float) Auxiliar
+				.getDouble(Auxiliar.getSeparate(pos, 5, ';'), 0);
+
+		boolean move = getBoolean(section, "move", true), head = getBoolean(
+				section, "head", true);
+		;
+		int time = getInt(section, "time", 5);
+
+		List<String> l = new LinkedList<>();
+		if (section.isList("Mensajes")) {
+			l = section.getStringList("Mensajes");
 		}
-		long now=System.currentTimeMillis();
-		if(actual.getTime()<(now-time)){
-			p++;
-			actual=CargarTutorial.getEtapa(p);
-			if(actual!=null){
-				player.teleport(actual.getPos());
-				actual.sendMsg(player);
-				time=System.currentTimeMillis();
-				if(actual.isMove()){
-					freeze.remove(player.getName());
-				}else{
-					if(!freeze.contains(player.getName())){
-					freeze.add(player.getName());
-					}
-				}
-				
-				if(actual.isHead()){
-					freezeHead.remove(player.getName());
-				}else{
-					if(!freezeHead.contains(player.getName())){
-						freezeHead.add(player.getName());
-					}
-				}
-			}
-			
-		}
+		etapas.add(new Etapa(new Location(world, x, y, z, yaw, pitch), move,
+				head, time, l));
 	}
-	
+
+	private static World getWorld(String s) {
+
+		World w = Bukkit.getWorld(s);
+		return w == null ? Bukkit.getWorlds().get(0) : w;
+
+	}
+
+	private static boolean getBoolean(ConfigurationSection section, String s,
+			boolean d) {
+
+		if (section.isBoolean(s)) {
+			return section.getBoolean(s);
+		}
+		return d;
+	}
+
+	private static int getInt(ConfigurationSection section, String s, int d) {
+		if (section.isInt(s)) {
+			return section.getInt(s);
+		}
+		return d;
+	}
+
+	public void setCash(int c) {
+		cash = c;
+	}
+
+	public void tuto(String player) {
+		tutorizados.add(player);
+	}
+
+	public boolean esTuto(String player) {
+		return tutorizados.contains(player);
+	}
 }

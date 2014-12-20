@@ -33,7 +33,6 @@ import org.bukkit.util.Vector;
 public class ListenerHub implements Listener {
 	private static List<ItemStack> noDrop = new LinkedList<>();
 	private static List<ItemStack> standarItems = new LinkedList<>();
-
 	public ListenerHub() {
 		enable();
 	}
@@ -193,4 +192,6 @@ public class ListenerHub implements Listener {
 		setUp(e.getPlayer());
 		
 	}
+
+	
 }
