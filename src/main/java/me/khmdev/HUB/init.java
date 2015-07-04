@@ -1,5 +1,8 @@
 package me.khmdev.HUB;
 
+import me.khmdev.HUB.Tutorial.MDSTurorial;
+import me.khmdev.HUB.lang.Lang;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +23,12 @@ public class init extends JavaPlugin{
 			setEnabled(false);
 			return;
 		}
+		Lang.init(this);
 		base=new Base(this);
+		if (hasPluging("MDS")){
+			me.khmdev.MDS.base.addAction("tutorial", new MDSTurorial());
+		}
+
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
@@ -44,7 +52,7 @@ public class init extends JavaPlugin{
 	}
 	@Override
 	public void onDisable(){
-		base.onDisable();
+		if(base!=null){base.onDisable();}
 	}
 
 }

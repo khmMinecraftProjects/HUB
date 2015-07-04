@@ -5,7 +5,7 @@ import java.util.List;
 
 import me.khmdev.APIAuxiliar.Effects.ParticleEffect;
 import me.khmdev.APIAuxiliar.Effects.SendParticles;
-import me.khmdev.APIAuxiliar.Players.ItemVisible;
+import me.khmdev.APIAuxiliar.Players.VisiblesPlayer;
 import me.khmdev.APIBase.Auxiliar.UsuariosOcupados;
 import me.khmdev.HUB.Base;
 import me.khmdev.HUB.scoreBoard.CargaBoard;
@@ -64,7 +64,15 @@ public class ListenerHub implements Listener {
 
 	public static void addStandarItem(ItemStack itemStack) {
 		noDrop.add(itemStack);
-		standarItems.add(itemStack);
+		if(!standarItems.add(itemStack)){
+			for (Player pl : Bukkit.getOnlinePlayers()) {
+				if(!UsuariosOcupados.contain(pl)){
+					pl.getInventory().remove(itemStack);
+					pl.getInventory().addItem(itemStack);
+					pl.updateInventory();
+				}
+			}
+		}
 	}
 
 	public static void addNDItem(ItemStack itemStack) {
@@ -127,8 +135,8 @@ public class ListenerHub implements Listener {
 
 	@SuppressWarnings("deprecation")
 	public static void addStandarItems(Player pl) {
-		pl.getInventory().remove(ItemVisible.inv);
-		pl.getInventory().remove(ItemVisible.vis);
+		pl.getInventory().remove(Base.getEnabler().getInv());
+		pl.getInventory().remove(Base.getEnabler().getVis());
 
 		for (ItemStack item : standarItems) {
 			pl.getInventory().remove(item);

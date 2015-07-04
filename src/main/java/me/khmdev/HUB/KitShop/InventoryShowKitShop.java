@@ -13,6 +13,7 @@ import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CItems;
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CustomInventory;
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.ItemOpenInventory;
 import me.khmdev.APIAuxiliar.Players.AuxPlayer;
+import me.khmdev.HUB.lang.Lang;
 
 public class InventoryShowKitShop extends CustomInventory {
 	private int posOk = (5 * 9 - 1);
@@ -26,10 +27,10 @@ public class InventoryShowKitShop extends CustomInventory {
 		pos = 2;
 		
 		ItemKits it=new ItemKits(name,AuxPlayer.getItem(
-				Material.EMERALD_BLOCK,"&2Equipar")
+				Material.EMERALD_BLOCK,Lang.get("InventoryShowKitShop.equipar"))
 				, inv,arm);
 		ItemOpenInventory it2=new ItemOpenInventory(
-				AuxPlayer.getItem(Material.REDSTONE_BLOCK,"&CVolver"),volver);
+				AuxPlayer.getItem(Material.REDSTONE_BLOCK,Lang.get("InventoryShowKitShop.volver")),volver);
 		items.add(it);
 		items.add(it2);
 		
@@ -55,12 +56,12 @@ public class InventoryShowKitShop extends CustomInventory {
 
 		ItemKitShop it=new ItemKitShop(
 				ChatColor.RED+name,AuxPlayer.getItem(
-						Material.EMERALD_BLOCK,"&2Comprar")
+						Material.EMERALD_BLOCK,Lang.get("InventoryShowKitShop.volver"))
 				,buy.getInventory(),pr,name,prm);
 		
 		ItemOpenInventory it2=new ItemOpenInventory(
 				AuxPlayer.getItem(Material.REDSTONE_BLOCK,
-						"&CVolver"),volver);
+						Lang.get("InventoryShowKitShop.volver")),volver);
 		items.add(it);
 		items.add(it2);
 		

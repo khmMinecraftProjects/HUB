@@ -4,11 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.khmdev.APIBase.Auxiliar.Auxiliar;
+import me.khmdev.HUB.Base;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 public class Tutorial {
 	private List<Etapa> etapas = new LinkedList<>();
@@ -46,26 +49,28 @@ public class Tutorial {
 
 	private void addEtapa(ConfigurationSection section) {
 		String pos = section.getString("Posicion");
-		World world = getWorld(Auxiliar.getSeparate(pos, 0, ';'));
+		Location location = null;
+		if (pos != null) {
+			World world = getWorld(Auxiliar.getSeparate(pos, 0, ';'));
 
-		double x = Auxiliar.getDouble(Auxiliar.getSeparate(pos, 1, ';'), 0), y = Auxiliar
-				.getDouble(Auxiliar.getSeparate(pos, 2, ';'), 0), z = Auxiliar
-				.getDouble(Auxiliar.getSeparate(pos, 3, ';'), 0);
-		float pitch = (float) Auxiliar.getDouble(
-				Auxiliar.getSeparate(pos, 4, ';'), 0), yaw = (float) Auxiliar
-				.getDouble(Auxiliar.getSeparate(pos, 5, ';'), 0);
-
+			double x = Auxiliar.getDouble(Auxiliar.getSeparate(pos, 1, ';'), 0), y = Auxiliar
+					.getDouble(Auxiliar.getSeparate(pos, 2, ';'), 0), z = Auxiliar
+					.getDouble(Auxiliar.getSeparate(pos, 3, ';'), 0);
+			float pitch = (float) Auxiliar.getDouble(
+					Auxiliar.getSeparate(pos, 4, ';'), 0), yaw = (float) Auxiliar
+					.getDouble(Auxiliar.getSeparate(pos, 5, ';'), 0);
+			location = new Location(world, x, y, z, yaw, pitch);
+		}
 		boolean move = getBoolean(section, "move", true), head = getBoolean(
 				section, "head", true);
-		;
+
 		int time = getInt(section, "time", 5);
 
 		List<String> l = new LinkedList<>();
 		if (section.isList("Mensajes")) {
 			l = section.getStringList("Mensajes");
 		}
-		etapas.add(new Etapa(new Location(world, x, y, z, yaw, pitch), move,
-				head, time, l));
+		etapas.add(new Etapa(location, move, head, time, l));
 	}
 
 	private static World getWorld(String s) {
@@ -101,5 +106,14 @@ public class Tutorial {
 
 	public boolean esTuto(String player) {
 		return tutorizados.contains(player);
+	}
+	public void initTutorial(Player player) {
+		if(!player.hasPermission("tutorial.repetible")&&esTuto(player.getName())){
+			player.sendMessage(
+					ChatColor.translateAlternateColorCodes('&',
+							"&CYa has hecho el tutorial"));
+		}else{
+			Base.run(new TutorialAction(this,player));
+		}
 	}
 }

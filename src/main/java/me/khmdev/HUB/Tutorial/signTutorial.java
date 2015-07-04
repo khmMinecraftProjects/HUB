@@ -5,7 +5,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CustomSign;
-import me.khmdev.HUB.Base;
 
 public class signTutorial extends CustomSign{
 	Tutorial tutorial;
@@ -14,13 +13,7 @@ public class signTutorial extends CustomSign{
 	}
 	@Override
 	public void execute(PlayerInteractEvent event) {
-		if(tutorial.esTuto(event.getPlayer().getName())){
-			event.getPlayer().sendMessage(
-					ChatColor.translateAlternateColorCodes('&',
-							"&CYa has hecho el tutorial"));
-		}else{
-			Base.run(new TutorialAction(tutorial,event.getPlayer()));
-		}
+		tutorial.initTutorial(event.getPlayer());
 	}
 
 	@Override

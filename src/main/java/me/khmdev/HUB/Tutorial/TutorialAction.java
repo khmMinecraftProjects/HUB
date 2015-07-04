@@ -23,7 +23,10 @@ public class TutorialAction extends runKill implements Listener {
 	private Player player;
 	private Location first;
 	private Tutorial tutorial;
-	public TutorialAction(){}
+
+	public TutorialAction() {
+	}
+
 	@EventHandler
 	public void move(PlayerMoveEvent event) {
 		Location l = event.getTo().clone(), from = event.getFrom().clone();
@@ -46,14 +49,19 @@ public class TutorialAction extends runKill implements Listener {
 		}
 	}
 
-	public TutorialAction(Tutorial t,Player pl) {
-		tutorial=t;
+	public TutorialAction(Tutorial t, Player pl) {
+		tutorial = t;
 		player = pl;
 		p = 0;
 		time = System.currentTimeMillis();
 		actual = tutorial.getEtapa(p);
+		first = player.getLocation();
 		if (actual != null) {
-			player.teleport(actual.getPos());
+			if (actual.getPos() != null) {
+				player.teleport(actual.getPos());
+			} else {
+				player.teleport(first);
+			}
 			time = System.currentTimeMillis();
 			actual.sendMsg(player);
 
@@ -73,7 +81,6 @@ public class TutorialAction extends runKill implements Listener {
 				}
 			}
 		}
-		first = player.getLocation();
 	}
 
 	@Override
@@ -99,7 +106,11 @@ public class TutorialAction extends runKill implements Listener {
 			p++;
 			actual = tutorial.getEtapa(p);
 			if (actual != null) {
-				player.teleport(actual.getPos());
+				if (actual.getPos() != null) {
+					player.teleport(actual.getPos());
+				} else {
+					player.teleport(first);
+				}
 				actual.sendMsg(player);
 				time = System.currentTimeMillis();
 				if (actual.isMove()) {

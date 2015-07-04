@@ -26,5 +26,7 @@ permissions:
                  default: op
          tutorial.createsign:
                  default: op
-softdepend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx,Friends]
-Depend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx,Friends]
+         tutorial.repetible:
+                 default: op
+softdepend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx,MDS]
+Depend: [HoloAPI,APIEconomy,APIAuxiliar,PermissionsEx,MDS]

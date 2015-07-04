@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CItems;
 import me.khmdev.APIAuxiliar.Inventory.CustomInventorys.CustomInventory;
-import me.khmdev.APIAuxiliar.Players.APIPlayer;
 import me.khmdev.APIBase.API;
 import me.khmdev.APIBase.Almacenes.Almacen;
 import me.khmdev.APIBase.Almacenes.Central;
@@ -22,6 +21,7 @@ import me.khmdev.HUB.Tutorial.newSignTutorial;
 import me.khmdev.HUB.Tutorial.signTutorial;
 import me.khmdev.HUB.WearShop.CargarShop;
 import me.khmdev.HUB.WearShop.PlayerDresser;
+import me.khmdev.HUB.lang.Lang;
 import me.khmdev.HUB.scoreBoard.CargaBoard;
 import me.khmdev.HUB.shop.ItemsCust;
 import me.khmdev.HUB.shop.ListenAldeano;
@@ -40,7 +40,11 @@ public class Base implements Datos {
 
 	private static JavaPlugin plug = null;
 	private Central central;
+	private static ItemVisible enabler;
 
+	public static ItemVisible getEnabler() {
+		return enabler;
+	}
 	public static JavaPlugin getInstance() {
 		return plug;
 	}
@@ -62,15 +66,15 @@ public class Base implements Datos {
 	}
 
 	public static void init() {
-		inv = new CustomInventory("Tienda hub");
-
+		inv = new CustomInventory(Lang.get("Base.tienda"));
 		CItems.addItem(ItemsCust.maria);
 		CItems.addItem(ItemsCust.esteroides);
 		CItems.addItem(ItemsCust.Cocacola);
 		CItems.addItem(ItemsCust.Cupido);
 		CItems.addItem(ItemsCust.Creeperniano);
 		CItems.addItem(ItemsCust.milk);
-
+		
+		ListenerHub.addStandarItem(enabler.getVis());
 		ListenerHub.addNDItem(ItemsCust.maria.getItem());
 		ListenerHub.addNDItem(ItemsCust.esteroides.getItem());
 		ListenerHub.addNDItem(ItemsCust.Cocacola.getItem());
@@ -100,12 +104,13 @@ public class Base implements Datos {
 		 */
 		pl.getServer().getPluginManager()
 				.registerEvents(new TutorialAction(), pl);
-		init(pl);
 
 		/**
 		 * Own
 		 */
-		ListenerHub.addStandarItem(APIPlayer.getEnabler());
+		enabler = new ItemVisible();
+		CItems.addItem(enabler);
+		init(pl);
 		central = new Central(pl);
 		central.insertar(this);
 		pl.getServer().getPluginManager().registerEvents(new ListenerHub(), pl);
@@ -134,13 +139,13 @@ public class Base implements Datos {
 		pl.getServer().getPluginManager()
 				.registerEvents(new ListenAldeano(), pl);
 		init();
-		ListenAldeano.addVillager("Tienda", inv.getInventory());
+		ListenAldeano.addVillager(Lang.get("Base.VillagerTienda"), inv.getInventory());
 
 		/**
 		 * Dress Shop
 		 */
 		CargarShop.cargar(pl);
-		ListenAldeano.addVillager("Vestidor", CargarShop.getInventory());
+		ListenAldeano.addVillager(Lang.get("Base.VillagerVestidor"), CargarShop.getInventory());
 		API.getInstance().getCentral().insertar(new PlayerDresser());
 
 		/**
@@ -163,10 +168,6 @@ public class Base implements Datos {
 		 * if(hasPluging("PermissionsEx")){ init.getServer().getPluginManager()
 		 * .registerEvents(new ListenerChat(), init); }
 		 */
-		if (init.hasPluging("Friends")) {
-			ListenerHub.addStandarItem(me.khmdev.Friends.Base.getInstance()
-					.getItemManager().getItem());
-		}
 
 		ListenerHub.enable();
 
